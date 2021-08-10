@@ -16,6 +16,6 @@ public class WalletExceptionHandler {
             NotFoundException.class, InsufficientFundsException.class, StripeServiceException.class, AuthenticationException.class
     })
     public ResponseEntity<Object> handleException(Exception e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getClass().getSimpleName() + " was thrown"), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ErrorResponse(e.getClass().getSimpleName() + " was thrown"), HttpStatus.I_AM_A_TEAPOT);
     }
 }
