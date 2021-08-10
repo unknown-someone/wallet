@@ -11,6 +11,7 @@ import com.poc.tests.walletpoc.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,26 +23,34 @@ public class WalletController {
 
     private final WalletService walletService;
 
-    @GetMapping("/wallet/{id}")
-    public Wallet findById(@PathVariable("id") Long id) throws NotFoundException {
+    @GetMapping("/wallet")
+    public Wallet find() throws NotFoundException {
         log.info("Logging from get wallet");
 
-        return walletService.findById(id)
+        return walletService.findById(getUserId())
                 .map(WalletMapper::toDto)
                 .orElseThrow(NotFoundException::new);
     }
 
-    @PostMapping("/wallet/{id}/recharge")
-    public void rechargeById(@PathVariable("id") Long id, @Valid @RequestBody Recharge recharge) throws NotFoundException, StripeServiceException {
+    @PostMapping("/wallet/recharge")
+    public void recharge(@Valid @RequestBody Recharge recharge) throws NotFoundException, StripeServiceException {
         log.info("Logging from recharge wallet");
 
-        walletService.rechargeById(id, recharge);
+        walletService.rechargeById(getUserId(), recharge);
     }
 
-    @PostMapping("/wallet/{id}/payment")
-    public void payById(@PathVariable("id") Long id, @RequestBody Payment payment) throws NotFoundException, InsufficientFundsException {
+    @PostMapping("/wallet/payment")
+    public void pay(@RequestBody Payment payment) throws NotFoundException, InsufficientFundsException {
         log.info("Logging from pay with wallet");
 
-        walletService.payById(id, payment);
+        walletService.payById(getUserId(), payment);
+    }
+
+    private Long getUserId() {
+        return Long.decode(
+                (String) SecurityContextHolder.getContext()
+                        .getAuthentication()
+                        .getPrincipal()
+        );
     }
 }
