@@ -9,8 +9,8 @@ import com.poc.tests.walletpoc.exception.StripeServiceException;
 import com.poc.tests.walletpoc.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Optional;
 
