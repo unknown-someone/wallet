@@ -1,5 +1,6 @@
 package com.poc.tests.walletpoc.service;
 
+import com.poc.tests.walletpoc.exception.StripeServiceException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 

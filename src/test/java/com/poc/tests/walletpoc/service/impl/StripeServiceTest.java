@@ -1,7 +1,7 @@
 package com.poc.tests.walletpoc.service.impl;
 
 
-import com.poc.tests.walletpoc.service.StripeServiceException;
+import com.poc.tests.walletpoc.exception.StripeServiceException;
 import com.poc.tests.walletpoc.service.StripeService;
 
 import org.junit.jupiter.api.Assertions;

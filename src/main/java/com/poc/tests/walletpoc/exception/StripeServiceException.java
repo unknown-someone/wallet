@@ -1,4 +1,4 @@
-package com.poc.tests.walletpoc.service;
+package com.poc.tests.walletpoc.exception;
 
 public class StripeServiceException extends Exception {
 }
