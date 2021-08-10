@@ -4,6 +4,7 @@ import com.poc.tests.walletpoc.dto.Payment;
 import com.poc.tests.walletpoc.dto.Recharge;
 import com.poc.tests.walletpoc.dto.Wallet;
 import com.poc.tests.walletpoc.exception.InsufficientFundsException;
+import com.poc.tests.walletpoc.exception.NegativePaymentException;
 import com.poc.tests.walletpoc.exception.NotFoundException;
 import com.poc.tests.walletpoc.exception.StripeServiceException;
 import com.poc.tests.walletpoc.mapper.WalletMapper;
@@ -40,7 +41,7 @@ public class WalletController {
     }
 
     @PostMapping("/wallet/payment")
-    public void pay(@RequestBody Payment payment) throws NotFoundException, InsufficientFundsException {
+    public void pay(@RequestBody Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
         log.info("Logging from pay with wallet");
 
         walletService.payById(getUserId(), payment);

@@ -4,6 +4,7 @@ import com.poc.tests.walletpoc.dto.Payment;
 import com.poc.tests.walletpoc.dto.Recharge;
 import com.poc.tests.walletpoc.entity.WalletEntity;
 import com.poc.tests.walletpoc.exception.InsufficientFundsException;
+import com.poc.tests.walletpoc.exception.NegativePaymentException;
 import com.poc.tests.walletpoc.exception.NotFoundException;
 import com.poc.tests.walletpoc.exception.StripeServiceException;
 import com.poc.tests.walletpoc.repository.WalletRepository;
@@ -42,9 +43,13 @@ public class WalletService {
         walletEntity.setBalance(newBalance);
     }
 
-    public void payById(Long id, Payment payment) throws NotFoundException, InsufficientFundsException {
+    public void payById(Long id, Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+
+        if (payment.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativePaymentException();
+        }
 
         BigDecimal newBalance = walletEntity.getBalance()
                 .subtract(payment.getAmount());

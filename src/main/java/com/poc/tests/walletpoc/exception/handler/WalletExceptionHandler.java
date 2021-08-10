@@ -3,6 +3,7 @@ package com.poc.tests.walletpoc.exception.handler;
 import com.poc.tests.walletpoc.dto.ErrorResponse;
 import com.poc.tests.security.AuthenticationException;
 import com.poc.tests.walletpoc.exception.InsufficientFundsException;
+import com.poc.tests.walletpoc.exception.NegativePaymentException;
 import com.poc.tests.walletpoc.exception.NotFoundException;
 import com.poc.tests.walletpoc.exception.StripeServiceException;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class WalletExceptionHandler {
     @ExceptionHandler(value = {
-            NotFoundException.class, InsufficientFundsException.class, StripeServiceException.class, AuthenticationException.class
+            NotFoundException.class,
+            InsufficientFundsException.class,
+            StripeServiceException.class,
+            AuthenticationException.class,
+            NegativePaymentException.class
     })
     public ResponseEntity<Object> handleException(Exception e) {
         return new ResponseEntity<>(new ErrorResponse(e.getClass().getSimpleName() + " was thrown"), HttpStatus.I_AM_A_TEAPOT);
