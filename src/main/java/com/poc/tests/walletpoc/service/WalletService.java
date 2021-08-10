@@ -35,6 +35,9 @@ public class WalletService {
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
 
+        // if this was not a dummy service, there could be an issue
+        // if charge succeeds but the rest of the request fails
+        // and retry or refund would be needed - ignored for simplicity
         stripeService.charge(recharge.getCardNumber(), recharge.getAmount());
 
         BigDecimal newBalance = walletEntity.getBalance()
