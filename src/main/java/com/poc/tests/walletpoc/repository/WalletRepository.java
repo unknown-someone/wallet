@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface WalletRepository extends JpaRepository<WalletEntity, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     Optional<WalletEntity> findById(Long id);
+
+    Optional<WalletEntity> findByIdAndPassword(Long id, String password);
 }

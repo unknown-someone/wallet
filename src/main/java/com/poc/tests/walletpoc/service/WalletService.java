@@ -26,6 +26,10 @@ public class WalletService {
         return walletRepository.findById(id);
     }
 
+    public Optional<WalletEntity> findByIdAndPassword(Long id, String password) {
+        return walletRepository.findByIdAndPassword(id, password);
+    }
+
     public void rechargeById(Long id, Recharge recharge) throws NotFoundException, StripeServiceException {
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);

@@ -23,12 +23,12 @@ public class WalletController {
     private final WalletService walletService;
 
     @GetMapping("/wallet/{id}")
-    public Wallet findById(@PathVariable("id") Long id) {
+    public Wallet findById(@PathVariable("id") Long id) throws NotFoundException {
         log.info("Logging from get wallet");
 
         return walletService.findById(id)
                 .map(WalletMapper::toDto)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(NotFoundException::new);
     }
 
     @PostMapping("/wallet/{id}/recharge")
