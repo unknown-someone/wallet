@@ -9,6 +9,8 @@ import com.poc.tests.walletpoc.exception.NotFoundException;
 import com.poc.tests.walletpoc.exception.StripeServiceException;
 import com.poc.tests.walletpoc.repository.WalletRepository;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,19 +21,27 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class WalletService {
+    private final Logger log = LoggerFactory.getLogger(WalletService.class);
+
     private final WalletRepository walletRepository;
 
     private final StripeService stripeService;
 
     public Optional<WalletEntity> findById(Long id) {
+        log.info("Logging from get wallet by id");
+
         return walletRepository.findById(id);
     }
 
     public Optional<WalletEntity> findByIdAndPassword(Long id, String password) {
+        log.info("Logging from get wallet by id and password");
+
         return walletRepository.findByIdAndPassword(id, password);
     }
 
     public void rechargeById(Long id, Recharge recharge) throws NotFoundException, StripeServiceException {
+        log.info("Logging from recharge wallet");
+
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
 
@@ -47,6 +57,8 @@ public class WalletService {
     }
 
     public void payById(Long id, Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
+        log.info("Logging from pay with wallet");
+
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
 

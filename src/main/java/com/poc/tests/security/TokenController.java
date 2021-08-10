@@ -29,7 +29,7 @@ public class TokenController {
     public Token generateToken(@Valid @RequestBody User user) throws AuthenticationException {
         log.info("Logging from generate token");
 
-        WalletEntity walletEntity = walletService.findByIdAndPassword(user.getId(), user.getPassword())
+        walletService.findByIdAndPassword(user.getId(), user.getPassword())
                 .orElseThrow(AuthenticationException::new);
 
         return getJWTToken(user.getId());
