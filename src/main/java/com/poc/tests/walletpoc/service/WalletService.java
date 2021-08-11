@@ -28,22 +28,24 @@ public class WalletService {
     private final StripeService stripeService;
 
     public Optional<WalletEntity> findById(Long id) {
-        log.info("Logging from get wallet by id");
+        log.info("Starting get wallet by id");
 
         return walletRepository.findById(id);
     }
 
     public Optional<WalletEntity> findByIdAndPassword(Long id, String password) {
-        log.info("Logging from get wallet by id and password");
+        log.info("Starting get wallet by id and password");
 
         return walletRepository.findByIdAndPassword(id, password);
     }
 
     public void rechargeById(Long id, Recharge recharge) throws NotFoundException, StripeServiceException {
-        log.info("Logging from recharge wallet");
+        log.info("Starting recharge wallet");
 
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+
+        log.info("Wallet entity locked for recharge");
 
         // if this was not a dummy service, there could be an issue
         // if charge succeeds but the rest of the request fails
@@ -57,10 +59,12 @@ public class WalletService {
     }
 
     public void payById(Long id, Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
-        log.info("Logging from pay with wallet");
+        log.info("Starting pay with wallet");
 
         WalletEntity walletEntity = walletRepository.findById(id)
                 .orElseThrow(NotFoundException::new);
+
+        log.info("Wallet entity locked for payment");
 
         if (payment.getAmount().compareTo(BigDecimal.ZERO) < 0) {
             throw new NegativePaymentException();
