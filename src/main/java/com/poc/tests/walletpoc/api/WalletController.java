@@ -27,13 +27,15 @@ public class WalletController {
                 .orElseThrow(NotFoundException::new);
     }
 
+    // should have returned the Wallet as response here...
     @PostMapping("/wallet/recharge")
     public void recharge(@Valid @RequestBody Recharge recharge) throws NotFoundException, StripeServiceException {
         walletService.rechargeById(getUserId(), recharge);
     }
 
+    // should have returned the Wallet as response here also...
     @PostMapping("/wallet/payment")
-    public void pay(@RequestBody Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
+    public void pay(@Valid @RequestBody Payment payment) throws NotFoundException, InsufficientFundsException, NegativePaymentException {
         walletService.payById(getUserId(), payment);
     }
 

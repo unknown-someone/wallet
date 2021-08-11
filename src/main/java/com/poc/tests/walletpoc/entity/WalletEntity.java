@@ -16,5 +16,6 @@ public class WalletEntity {
     @Column(nullable = false)
     private BigDecimal balance;
 
+    // of course, this shouldn't be here in a real application :D
     private String password;
 }
